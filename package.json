@@ -10,8 +10,12 @@
     "test": "jest",
     "ts-types": " tsc --emitDeclarationOnly --outDir lib"
   },
-  "author": "",
-  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/taraspolovyi/urlbuddy.git"
+  },
+  "author": "Taras Polovyi",
+  "license": "MIT",
   "dependencies": {
     "psl": "^1.9.0",
     "punycode": "^2.1.1"

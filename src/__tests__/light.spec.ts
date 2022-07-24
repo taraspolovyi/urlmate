@@ -22,7 +22,7 @@ const testUrlLabels = new Map<string, string>()
   .set(TestUrls.withHash, 'URL with hash')
   .set(TestUrls.withTopLevelDomain, 'URL with Top Level Domain only');
 
-describe('UrlBuddy', () => {
+describe('UrlMate', () => {
   describe('initiate', () => {
     describe('with string URL', () => {
       for (let url of Object.values(TestUrls)) {

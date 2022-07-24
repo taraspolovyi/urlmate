@@ -1,16 +1,16 @@
-import { UrlBuddy } from './UrlBuddy';
+import { UrlMate } from './UrlMate';
 
 import type { InitialValue, IUrlDto, Mapper, ValueOrMapper } from './types';
 import type UrlData from './UrlData';
 
-export default function urlmate(url: string): UrlBuddy;
-export default function urlmate(url: UrlData): UrlBuddy;
-export default function urlmate(url: IUrlDto): UrlBuddy;
-export default function urlmate(initFn: Mapper<null, string>): UrlBuddy;
-export default function urlmate(initFn: Mapper<null, UrlData>): UrlBuddy;
-export default function urlmate(initFn: Mapper<null, IUrlDto>): UrlBuddy;
-export default function urlmate(initialValue: ValueOrMapper<null, InitialValue>): UrlBuddy {
-  return new UrlBuddy(initialValue);
+export default function urlmate(url: string): UrlMate;
+export default function urlmate(url: UrlData): UrlMate;
+export default function urlmate(url: IUrlDto): UrlMate;
+export default function urlmate(initFn: Mapper<null, string>): UrlMate;
+export default function urlmate(initFn: Mapper<null, UrlData>): UrlMate;
+export default function urlmate(initFn: Mapper<null, IUrlDto>): UrlMate;
+export default function urlmate(initialValue: ValueOrMapper<null, InitialValue>): UrlMate {
+  return new UrlMate(initialValue);
 }
 
 export { identity, append, appendIf, constant, constIf, prepend, prependIf, doIf, matchOrDefault } from './directives';

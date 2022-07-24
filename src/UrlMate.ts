@@ -7,7 +7,7 @@ import type { IUrlDto, Mapper, Nullable, ValueOrArray, ValueOrMapper } from './t
 
 type IInitialValue = string | UrlData | IUrlDto;
 
-export class UrlBuddy {
+export class UrlMate {
   protected _data: UrlData;
 
   constructor(value: ValueOrMapper<null, IInitialValue>) {
@@ -22,9 +22,9 @@ export class UrlBuddy {
     }
   }
 
-  withProtocol(protocol: string): UrlBuddy;
-  withProtocol(fn: Mapper<string>): UrlBuddy;
-  withProtocol(value: ValueOrMapper<string>): UrlBuddy {
+  withProtocol(protocol: string): UrlMate;
+  withProtocol(fn: Mapper<string>): UrlMate;
+  withProtocol(value: ValueOrMapper<string>): UrlMate {
     const protocol = useValueOrMap(this._data.protocol)(value);
 
     return this._immutableUpdate((data) => {
@@ -32,9 +32,9 @@ export class UrlBuddy {
     });
   }
 
-  withUsername(username: Nullable<string>): UrlBuddy;
-  withUsername(fn: Mapper<Nullable<string>>): UrlBuddy;
-  withUsername(value: ValueOrMapper<Nullable<string>>): UrlBuddy {
+  withUsername(username: Nullable<string>): UrlMate;
+  withUsername(fn: Mapper<Nullable<string>>): UrlMate;
+  withUsername(value: ValueOrMapper<Nullable<string>>): UrlMate {
     const username = useValueOrMap(this._data.username)(value);
 
     return this._immutableUpdate((data) => {
@@ -42,32 +42,32 @@ export class UrlBuddy {
     });
   }
 
-  withPassword(password: Nullable<string>): UrlBuddy;
-  withPassword(fn: Mapper<Nullable<string>>): UrlBuddy;
-  withPassword(value: ValueOrMapper<Nullable<string>>): UrlBuddy {
+  withPassword(password: Nullable<string>): UrlMate;
+  withPassword(fn: Mapper<Nullable<string>>): UrlMate;
+  withPassword(value: ValueOrMapper<Nullable<string>>): UrlMate {
     const password = useValueOrMap(this._data.password)(value);
     return this._immutableUpdate((data) => {
       data.password = password;
     });
   }
 
-  withCredentials(username: Nullable<string>, password: Nullable<string>): UrlBuddy;
-  withCredentials(usernameMapper: Mapper<Nullable<string>>, passwordMapper: Mapper<Nullable<string>>): UrlBuddy;
-  withCredentials(usernameMapper: Mapper<Nullable<string>>, password: Nullable<string>): UrlBuddy;
-  withCredentials(username: Nullable<string>, passwordMapper: Mapper<Nullable<string>>): UrlBuddy;
+  withCredentials(username: Nullable<string>, password: Nullable<string>): UrlMate;
+  withCredentials(usernameMapper: Mapper<Nullable<string>>, passwordMapper: Mapper<Nullable<string>>): UrlMate;
+  withCredentials(usernameMapper: Mapper<Nullable<string>>, password: Nullable<string>): UrlMate;
+  withCredentials(username: Nullable<string>, passwordMapper: Mapper<Nullable<string>>): UrlMate;
   withCredentials(
     usernameOrFn: ValueOrMapper<Nullable<string>>,
     passwordOrFn: ValueOrMapper<Nullable<string>>
-  ): UrlBuddy {
+  ): UrlMate {
     const username = useValueOrMap(this._data.username)(usernameOrFn);
     const password = useValueOrMap(this._data.password)(passwordOrFn);
 
     return this.withUsername(username).withPassword(password);
   }
 
-  withDomain(domain: string): UrlBuddy;
-  withDomain(fn: Mapper<string>): UrlBuddy;
-  withDomain(value: ValueOrMapper<string>): UrlBuddy {
+  withDomain(domain: string): UrlMate;
+  withDomain(fn: Mapper<string>): UrlMate;
+  withDomain(value: ValueOrMapper<string>): UrlMate {
     const domain = useValueOrMap(this._data.domain.toString())(value);
 
     return this._immutableUpdate((data) => {
@@ -75,9 +75,9 @@ export class UrlBuddy {
     });
   }
 
-  withPath(path: ValueOrArray<string>): UrlBuddy;
-  withPath(fn: Mapper<string[], ValueOrArray<string>>): UrlBuddy;
-  withPath(value: ValueOrMapper<string[], ValueOrArray<string>>): UrlBuddy {
+  withPath(path: ValueOrArray<string>): UrlMate;
+  withPath(fn: Mapper<string[], ValueOrArray<string>>): UrlMate;
+  withPath(value: ValueOrMapper<string[], ValueOrArray<string>>): UrlMate {
     const getValue = useValueOrMap<string[], ValueOrArray<string>>(this._data.path);
 
     const path = flow(
@@ -92,8 +92,8 @@ export class UrlBuddy {
     });
   }
 
-  withSearchParam(key: string, value: Nullable<string>): UrlBuddy;
-  withSearchParam(key: string, fn: Mapper<Nullable<string>>): UrlBuddy;
+  withSearchParam(key: string, value: Nullable<string>): UrlMate;
+  withSearchParam(key: string, fn: Mapper<Nullable<string>>): UrlMate;
   withSearchParam(key: string, value: ValueOrMapper<Nullable<string>>) {
     const paramValue = useValueOrMap(this._data.search.get(key) ?? null)(value);
 
@@ -102,22 +102,22 @@ export class UrlBuddy {
     });
   }
 
-  withSearchParams(searchStr: string): UrlBuddy;
-  withSearchParams(searchIterable: Iterable<[string, ValueOrMapper<Nullable<string>>]>): UrlBuddy;
-  withSearchParams(searchObj: { [key: string]: ValueOrMapper<Nullable<string>> }): UrlBuddy;
-  withSearchParams(fn: Mapper<Map<string, Nullable<string>>, string>): UrlBuddy;
+  withSearchParams(searchStr: string): UrlMate;
+  withSearchParams(searchIterable: Iterable<[string, ValueOrMapper<Nullable<string>>]>): UrlMate;
+  withSearchParams(searchObj: { [key: string]: ValueOrMapper<Nullable<string>> }): UrlMate;
+  withSearchParams(fn: Mapper<Map<string, Nullable<string>>, string>): UrlMate;
   withSearchParams(
     fn: Mapper<Map<string, Nullable<string>>, Iterable<[string, ValueOrMapper<Nullable<string>>]>>
-  ): UrlBuddy;
+  ): UrlMate;
   withSearchParams(
     fn: Mapper<Map<string, Nullable<string>>, { [key: string]: ValueOrMapper<Nullable<string>> }>
-  ): UrlBuddy;
+  ): UrlMate;
   withSearchParams(
     value: ValueOrMapper<
       Map<string, Nullable<string>>,
       Iterable<[string, ValueOrMapper<Nullable<string>>]> | { [key: string]: ValueOrMapper<Nullable<string>> } | string
     >
-  ): UrlBuddy {
+  ): UrlMate {
     const search = flow(
       useValueOrMap(this._data.search),
       SearchParams.toParsed,
@@ -130,8 +130,8 @@ export class UrlBuddy {
     });
   }
 
-  withHash(hash: Nullable<string>): UrlBuddy;
-  withHash(fn: Mapper<Nullable<string>>): UrlBuddy;
+  withHash(hash: Nullable<string>): UrlMate;
+  withHash(fn: Mapper<Nullable<string>>): UrlMate;
   withHash(value: ValueOrMapper<Nullable<string>>) {
     const hash = useValueOrMap(this._data.hash)(value);
 
@@ -144,9 +144,9 @@ export class UrlBuddy {
     return this._data.toString();
   }
 
-  protected _immutableUpdate(updateFn: (data: UrlData) => void): UrlBuddy {
+  protected _immutableUpdate(updateFn: (data: UrlData) => void): UrlMate {
     const newData = this._data.clone();
     updateFn(newData);
-    return new UrlBuddy(newData);
+    return new UrlMate(newData);
   }
 }

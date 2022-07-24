@@ -1,6 +1,6 @@
-# UrlBuddy
+# UrlMate
 
-UrlBuddy is a utility library for manipulating with URLs, specifically when the changes depend on certain conditions, like env variables.
+UrlMate is a utility library for manipulating with URLs, specifically when the changes depend on certain conditions, like env variables.
 
 > **NOTE:** This is a weekend project made mostly for fun. It is going to be improved in the future, but the timeline cannot be guaranteed. Although, if you find the library useful, feel free to create issue with bug reports of feature requests. Contributions are also welcomed.
 
@@ -23,7 +23,7 @@ yarn add urlmate
 Here is an example of the library usage with TypeScript.
 
 ```typescript
-import UrlBuddy, { append, identity, matchOrDefault } from 'urlmate';
+import UrlMate, { append, identity, matchOrDefault } from 'urlmate';
 
 const baseUrl = urlmate('api.example.com')
   .withSubdomain(
@@ -48,27 +48,27 @@ fetch(bazUrl.toString()); // GET https://api.<env>.example.com/v1/bar/baz
 
 Let's go through it step by step:
 
-- Firstly, we initiate `UrlBuddy` with initial URL (note, that when the protocol is not specified it defaults to `https`).
+- Firstly, we initiate `UrlMate` with initial URL (note, that when the protocol is not specified it defaults to `https`).
 - On the second step, we choose the subdomain that is based on the current environment (`development`, `qa`, `stage`, or anything else)
 - After that we specify that we are going to use `v1` version of the given API;
-- Since UrlBuddy is immutable, now we can use our base URL representation to create multiple endpoint URLs (`/foo`, `/bar` and `/bar/baz`).
+- Since UrlMate is immutable, now we can use our base URL representation to create multiple endpoint URLs (`/foo`, `/bar` and `/bar/baz`).
 - Finally to use our URLs we just need to convert them back to regular strings by calling `.toString()` method.
 
 ### Lightweight version
 
-In order to be able to work with separate parts of the domain (i.e. tld, sld and subdomains), UrlBuddy relies on [psl](https://github.com/lupomontero/psl). It comes with a price of increased bundle size. That is why, if the bundle size is critical or there is no need in sophisticated domain manipulations, there is also `urlmate/light`, which doesn't have some domain-related methods, but is only about 3KB uncompressed.
+In order to be able to work with separate parts of the domain (i.e. tld, sld and subdomains), UrlMate relies on [psl](https://github.com/lupomontero/psl). It comes with a price of increased bundle size. That is why, if the bundle size is critical or there is no need in sophisticated domain manipulations, there is also `urlmate/light`, which doesn't have some domain-related methods, but is only about 3KB uncompressed.
 
 ## Methods
 
 ### urlmate()
 
 ```typescript
-urlmate(url: string): UrlBuddy;
-urlmate(url: UrlData): UrlBuddy;
-urlmate(url: IUrlDto): UrlBuddy;
-urlmate(initFn: Mapper<null, string>): UrlBuddy;
-urlmate(initFn: Mapper<null, UrlData>): UrlBuddy;
-urlmate(initFn: Mapper<null, IUrlDto>): UrlBuddy;
+urlmate(url: string): UrlMate;
+urlmate(url: UrlData): UrlMate;
+urlmate(url: IUrlDto): UrlMate;
+urlmate(initFn: Mapper<null, string>): UrlMate;
+urlmate(initFn: Mapper<null, UrlData>): UrlMate;
+urlmate(initFn: Mapper<null, IUrlDto>): UrlMate;
 ```
 
 ### toString()
@@ -82,8 +82,8 @@ Serializes the `urlmate` instance to string for further using as a regular URL.
 ### withDomain()
 
 ```typescript
-withDomain(domain: string): UrlBuddy;
-withDomain(fn: Mapper<string>): UrlBuddy;
+withDomain(domain: string): UrlMate;
+withDomain(fn: Mapper<string>): UrlMate;
 ```
 
 Allows manipulations with domain as a whole.
@@ -106,10 +106,10 @@ urlmate('example.com/foo/bar')
 > **NOTE:** not available in `urlmate/light`
 
 ```typescript
-withTopLevelDomain(tld: string): UrlBuddy;
-withTopLevelDomain(tldArr: string[]): UrlBuddy;
-withTopLevelDomain(mapper: Mapper<string[], string>): UrlBuddy;
-withTopLevelDomain(mapper: Mapper<string[]>): UrlBuddy;
+withTopLevelDomain(tld: string): UrlMate;
+withTopLevelDomain(tldArr: string[]): UrlMate;
+withTopLevelDomain(mapper: Mapper<string[], string>): UrlMate;
+withTopLevelDomain(mapper: Mapper<string[]>): UrlMate;
 ```
 
 Allows to perform changes only to top level domain.
@@ -132,8 +132,8 @@ urlmate('example.com')
 > **NOTE:** not available in `urlmate/light`
 
 ```typescript
-withSecondLevelDomain(sld: string): UrlBuddy;
-withSecondLevelDomain(mapper: Mapper<string>): UrlBuddy;
+withSecondLevelDomain(sld: string): UrlMate;
+withSecondLevelDomain(mapper: Mapper<string>): UrlMate;
 ```
 
 Allows to perform changes only to top level domain.
@@ -153,10 +153,10 @@ urlmate('example.com')
 > **NOTE:** not available in `urlmate/light`
 
 ```typescript
-withSubdomain(subdomain: string): UrlBuddy;
-withSubdomain(subdomainsArr: string[]): UrlBuddy;
-withSubdomain(fn: Mapper<string[], string>): UrlBuddy;
-withSubdomain(fn: Mapper<string[]>): UrlBuddy;
+withSubdomain(subdomain: string): UrlMate;
+withSubdomain(subdomainsArr: string[]): UrlMate;
+withSubdomain(fn: Mapper<string[], string>): UrlMate;
+withSubdomain(fn: Mapper<string[]>): UrlMate;
 ```
 
 Allows to perform changes only to subdomains.
@@ -177,8 +177,8 @@ urlmate('api.example.com')
 ### withProtocol()
 
 ```typescript
-withProtocol(protocol: string): UrlBuddy;
-withProtocol(fn: Mapper<string>): UrlBuddy;
+withProtocol(protocol: string): UrlMate;
+withProtocol(fn: Mapper<string>): UrlMate;
 ```
 
 Allows to perform changes to the protocol. It may be useful when single server handles multiple protocols.
@@ -186,8 +186,8 @@ Allows to perform changes to the protocol. It may be useful when single server h
 ### withUsername()
 
 ```typescript
-withUsername(domain: Nullable<string>): UrlBuddy;
-withUsername(fn: Mapper<Nullable<string>>): UrlBuddy;
+withUsername(domain: Nullable<string>): UrlMate;
+withUsername(fn: Mapper<Nullable<string>>): UrlMate;
 ```
 
 Changes the username of the URL. Pass `null` if there is a need to remove username.
@@ -195,8 +195,8 @@ Changes the username of the URL. Pass `null` if there is a need to remove userna
 ### withPassword()
 
 ```typescript
-withPassword(domain: Nullable<string>): UrlBuddy;
-withPassword(fn: Mapper<Nullable<string>>): UrlBuddy;
+withPassword(domain: Nullable<string>): UrlMate;
+withPassword(fn: Mapper<Nullable<string>>): UrlMate;
 ```
 
 Changes the password of the URL. Pass `null` if there is a need to remove username.
@@ -204,10 +204,10 @@ Changes the password of the URL. Pass `null` if there is a need to remove userna
 ### withCredentials()
 
 ```typescript
-withCredentials(username: Nullable<string>, password: Nullable<string>): UrlBuddy;
-withCredentials(username: Nullable<string>, password: Mapper<Nullable<string>>): UrlBuddy;
-withCredentials(username: Mapper<Nullable<string>>, password: Nullable<string>): UrlBuddy;
-withCredentials(username: Mapper<Nullable<string>>, password: Mapper<Nullable<string>>): UrlBuddy;
+withCredentials(username: Nullable<string>, password: Nullable<string>): UrlMate;
+withCredentials(username: Nullable<string>, password: Mapper<Nullable<string>>): UrlMate;
+withCredentials(username: Mapper<Nullable<string>>, password: Nullable<string>): UrlMate;
+withCredentials(username: Mapper<Nullable<string>>, password: Mapper<Nullable<string>>): UrlMate;
 ```
 
 A quick way to specify both username and password.
@@ -215,8 +215,8 @@ A quick way to specify both username and password.
 ### withPath()
 
 ```typescript
-  withPath(path: ValueOrArray<string>): UrlBuddy;
-  withPath(fn: Mapper<string[], ValueOrArray<string>>): UrlBuddy;
+  withPath(path: ValueOrArray<string>): UrlMate;
+  withPath(fn: Mapper<string[], ValueOrArray<string>>): UrlMate;
 ```
 
 Allows to apply changes to the path of the URL.
@@ -224,8 +224,8 @@ Allows to apply changes to the path of the URL.
 ### withSearchParam()
 
 ```typescript
-withSearchParam(domain: string): UrlBuddy;
-withSearchParam(fn: Mapper<string>): UrlBuddy;
+withSearchParam(domain: string): UrlMate;
+withSearchParam(fn: Mapper<string>): UrlMate;
 ```
 
 Set or change value of the URL search parameter base on `key`.
@@ -233,12 +233,12 @@ Set or change value of the URL search parameter base on `key`.
 ### withSearchParams()
 
 ```typescript
-withSearchParams(searchStr: string): UrlBuddy;
-withSearchParams(searchIterable: Iterable<[string, ValueOrMapper<Nullable<string>>]>): UrlBuddy;
-withSearchParams(searchObj: { [key: string]: ValueOrMapper<Nullable<string>> }): UrlBuddy;
-withSearchParams(fn: Mapper<Map<string, Nullable<string>>, string>): UrlBuddy;
-withSearchParams(fn: Mapper<Map<string, Nullable<string>>, Iterable<[string, ValueOrMapper<Nullable<string>>]>>): UrlBuddy;
-withSearchParams(fn: Mapper<Map<string, Nullable<string>>, { [key: string]: ValueOrMapper<Nullable<string>> }>): UrlBuddy;
+withSearchParams(searchStr: string): UrlMate;
+withSearchParams(searchIterable: Iterable<[string, ValueOrMapper<Nullable<string>>]>): UrlMate;
+withSearchParams(searchObj: { [key: string]: ValueOrMapper<Nullable<string>> }): UrlMate;
+withSearchParams(fn: Mapper<Map<string, Nullable<string>>, string>): UrlMate;
+withSearchParams(fn: Mapper<Map<string, Nullable<string>>, Iterable<[string, ValueOrMapper<Nullable<string>>]>>): UrlMate;
+withSearchParams(fn: Mapper<Map<string, Nullable<string>>, { [key: string]: ValueOrMapper<Nullable<string>> }>): UrlMate;
 ```
 
 Set or change all URL search parameters.
@@ -246,15 +246,15 @@ Set or change all URL search parameters.
 ### withHash()
 
 ```typescript
-withHash(hash: Nullable<string>): UrlBuddy;
-withHash(fn: Mapper<Nullable<string>>): UrlBuddy;
+withHash(hash: Nullable<string>): UrlMate;
+withHash(fn: Mapper<Nullable<string>>): UrlMate;
 ```
 
 Apply changes to hash part of the URL. Pass `null` to remove hash.
 
 ## Mappers
 
-UrlBuddy comes with a set of basic helper functions that cover typical cases, but it is not required to use them in your code. Your are free to use your own mapper function, which is covered in the [following section](#using-custom-mappers).
+UrlMate comes with a set of basic helper functions that cover typical cases, but it is not required to use them in your code. Your are free to use your own mapper function, which is covered in the [following section](#using-custom-mappers).
 
 ### identity
 

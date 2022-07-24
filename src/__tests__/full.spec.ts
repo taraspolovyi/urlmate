@@ -2,7 +2,7 @@ import urlmate from '../index';
 import { Nullable } from '../types';
 import { isNotNull } from '../utils';
 
-describe('UrlBuddyPsl', () => {
+describe('UrlMatePsl', () => {
   describe('withTopLevelDomain()', () => {
     describe('with constant argument', () => {
       it('reassembles when no changes applied', () => {

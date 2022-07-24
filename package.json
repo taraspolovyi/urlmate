@@ -1,6 +1,6 @@
 {
   "name": "urlmate",
-  "version": "0.1.1-beta",
+  "version": "0.1.2-beta",
   "description": "A utility library for handling URLs",
   "type": "module",
   "main": "lib/index.js",

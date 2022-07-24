@@ -1,14 +1,18 @@
+import type UrlData from './UrlData';
+
 export type ValueOrMapper<T, S = T> = S | Mapper<T, S>;
 
 export type ValueOrArray<T> = T | T[];
 
-export type Mapper<T, S = T> = (value: T) => S;
+export type Mapper<A, B = A> = (value: A) => B;
 
 export type Predicate<T> = (value: T) => boolean;
 
 export type Nullable<T> = T | null;
 
 export type Directive<T, S = T> = (...args: any[]) => Mapper<T, S>;
+
+export type InitialValue = string | UrlData | IUrlDto;
 
 export interface IUrlDto {
   protocol: string;

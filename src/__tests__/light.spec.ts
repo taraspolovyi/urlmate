@@ -1,5 +1,5 @@
-import { doSwitch } from './directives';
-import { UrlBuddy } from './UrlBuddy';
+import { matchOrDefault } from '../directives';
+import urlbuddy from '../index';
 
 enum TestUrls {
   simple = 'https://example.com/',
@@ -28,14 +28,14 @@ describe('UrlBuddy', () => {
       for (let url of Object.values(TestUrls)) {
         it(`works with ${testUrlLabels.get(url)}`, () => {
           const initialUrl = url;
-          const resultUrl = new UrlBuddy(initialUrl).toString();
+          const resultUrl = urlbuddy(initialUrl).toString();
           expect(resultUrl).toEqual(initialUrl);
         });
       }
 
       it('defaults to https when no protocol is specified', () => {
         const initialUrl = 'example.com';
-        const resultUrl = new UrlBuddy(initialUrl).toString();
+        const resultUrl = urlbuddy(initialUrl).toString();
         expect(resultUrl).toEqual('https://example.com/');
       });
     });
@@ -44,7 +44,7 @@ describe('UrlBuddy', () => {
       for (let [key, url] of Object.entries(TestUrls)) {
         it(`works with ${testUrlLabels.get(key)}`, () => {
           const initialUrl = new URL(url);
-          const resultUrl = new UrlBuddy(initialUrl).toString();
+          const resultUrl = urlbuddy(initialUrl).toString();
           expect(resultUrl).toEqual(initialUrl.toString());
         });
       }
@@ -54,8 +54,8 @@ describe('UrlBuddy', () => {
       it('should work', () => {
         const env = 'qa';
 
-        const result = new UrlBuddy(
-          doSwitch(
+        const result = urlbuddy(
+          matchOrDefault(
             env,
             () => 'example.com',
             ['development', () => 'dev.example.com'],
@@ -71,7 +71,7 @@ describe('UrlBuddy', () => {
 
   describe('withProtocol()', () => {
     describe('with string argument', () => {
-      const protocol = 'mongodb:';
+      const protocol = 'mongodb';
       const expectedUrls = new Map<string, string>()
         .set(TestUrls.simple, 'mongodb://example.com')
         .set(TestUrls.withPath, 'mongodb://example.com/foo/bar/')
@@ -84,7 +84,7 @@ describe('UrlBuddy', () => {
 
       for (let url of Object.values(TestUrls)) {
         it(`works with ${testUrlLabels.get(url)}`, () => {
-          const resultUrl = new UrlBuddy(url).withProtocol(protocol).toString();
+          const resultUrl = urlbuddy(url).withProtocol(protocol).toString();
           expect(resultUrl).toEqual(expectedUrls.get(url));
         });
       }
@@ -106,7 +106,7 @@ describe('UrlBuddy', () => {
 
       for (let url of Object.values(TestUrls)) {
         it(`works with ${testUrlLabels.get(url)}`, () => {
-          const resultUrl = new UrlBuddy(url).withUsername(username).toString();
+          const resultUrl = urlbuddy(url).withUsername(username).toString();
           expect(resultUrl).toEqual(expectedUrls.get(url));
         });
       }
@@ -128,7 +128,7 @@ describe('UrlBuddy', () => {
 
       for (let url of Object.values(TestUrls)) {
         it(`works with ${testUrlLabels.get(url)}`, () => {
-          const resultUrl = new UrlBuddy(url).withPassword(password).toString();
+          const resultUrl = urlbuddy(url).withPassword(password).toString();
           expect(resultUrl).toEqual(expectedUrls.get(url));
         });
       }
@@ -151,7 +151,7 @@ describe('UrlBuddy', () => {
 
       for (let url of Object.values(TestUrls)) {
         it(`works with ${testUrlLabels.get(url)}`, () => {
-          const resultUrl = new UrlBuddy(url).withCredentials(username, password).toString();
+          const resultUrl = urlbuddy(url).withCredentials(username, password).toString();
           expect(resultUrl).toEqual(expectedUrls.get(url));
         });
       }
@@ -173,7 +173,7 @@ describe('UrlBuddy', () => {
 
       for (let url of Object.values(TestUrls)) {
         it(`works with ${testUrlLabels.get(url)}`, () => {
-          const resultUrl = new UrlBuddy(url).withDomain(domain).toString();
+          const resultUrl = urlbuddy(url).withDomain(domain).toString();
           expect(resultUrl).toEqual(expectedUrls.get(url));
         });
       }
@@ -195,7 +195,7 @@ describe('UrlBuddy', () => {
 
       for (let url of Object.values(TestUrls)) {
         it(`works with ${testUrlLabels.get(url)}`, () => {
-          const resultUrl = new UrlBuddy(url).withPath(path).toString();
+          const resultUrl = urlbuddy(url).withPath(path).toString();
           expect(resultUrl).toEqual(expectedUrls.get(url));
         });
       }
@@ -217,13 +217,13 @@ describe('UrlBuddy', () => {
 
       for (let url of Object.values(TestUrls)) {
         it(`works with ${testUrlLabels.get(url)}`, () => {
-          const resultUrl = new UrlBuddy(url).withSearchParam(param.key, param.value).toString();
+          const resultUrl = urlbuddy(url).withSearchParam(param.key, param.value).toString();
           expect(resultUrl).toEqual(expectedUrls.get(url));
         });
       }
 
       it('overwrites an already defined value', () => {
-        const resultUrl = new UrlBuddy(TestUrls.withSearchParams).withSearchParam('foo', 'new').toString();
+        const resultUrl = urlbuddy(TestUrls.withSearchParams).withSearchParam('foo', 'new').toString();
         expect(resultUrl).toEqual('https://example.com/?foo=new&bar=baz');
       });
     });
@@ -244,7 +244,7 @@ describe('UrlBuddy', () => {
 
       for (let url of Object.values(TestUrls)) {
         it(`works with ${testUrlLabels.get(url)}`, () => {
-          const resultUrl = new UrlBuddy(url).withSearchParams(params).toString();
+          const resultUrl = urlbuddy(url).withSearchParams(params).toString();
           expect(resultUrl).toEqual(expectedUrls.get(url));
         });
       }
@@ -264,7 +264,7 @@ describe('UrlBuddy', () => {
 
       for (let url of Object.values(TestUrls)) {
         it(`works with ${testUrlLabels.get(url)}`, () => {
-          const resultUrl = new UrlBuddy(url).withSearchParams(params).toString();
+          const resultUrl = urlbuddy(url).withSearchParams(params).toString();
           expect(resultUrl).toEqual(expectedUrls.get(url));
         });
       }
@@ -284,7 +284,7 @@ describe('UrlBuddy', () => {
 
       for (let url of Object.values(TestUrls)) {
         it(`works with ${testUrlLabels.get(url)}`, () => {
-          const resultUrl = new UrlBuddy(url).withSearchParams(params).toString();
+          const resultUrl = urlbuddy(url).withSearchParams(params).toString();
           expect(resultUrl).toEqual(expectedUrls.get(url));
         });
       }
@@ -307,7 +307,7 @@ describe('UrlBuddy', () => {
 
       for (let url of Object.values(TestUrls)) {
         it(`works with ${testUrlLabels.get(url)}`, () => {
-          const resultUrl = new UrlBuddy(url).withSearchParams(params).toString();
+          const resultUrl = urlbuddy(url).withSearchParams(params).toString();
           expect(resultUrl).toEqual(expectedUrls.get(url));
         });
       }
@@ -329,7 +329,7 @@ describe('UrlBuddy', () => {
 
       for (let url of Object.values(TestUrls)) {
         it(`works with ${testUrlLabels.get(url)}`, () => {
-          const resultUrl = new UrlBuddy(url).withHash(hash).toString();
+          const resultUrl = urlbuddy(url).withHash(hash).toString();
           expect(resultUrl).toEqual(expectedUrls.get(url));
         });
       }

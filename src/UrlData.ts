@@ -26,7 +26,7 @@ export default class UrlData {
   }
 
   constructor(
-    public protocol: string = 'https:',
+    public protocol: string = 'https',
     public username: string | null = null,
     public password: string | null = null,
     public domain: string,
@@ -39,7 +39,7 @@ export default class UrlData {
   toString(): string {
     if (!this.domain) throw new Error('Cannot construct URL when domain is not set.');
 
-    const baseUrlStr = `${this.protocol}//${this.domain.toString()}`;
+    const baseUrlStr = `${this.protocol.replace(/:$/, '')}://${this.domain.toString()}`;
 
     const url = new URL(baseUrlStr);
 

@@ -10,12 +10,6 @@ type IInitialValue = string | UrlData | IUrlDto;
 export class UrlBuddy {
   protected _data: UrlData;
 
-  constructor(value: string);
-  constructor(value: UrlData);
-  constructor(value: IUrlDto);
-  constructor(value: Mapper<null, string>);
-  constructor(value: Mapper<null, UrlData>);
-  constructor(value: Mapper<null, IUrlDto>);
   constructor(value: ValueOrMapper<null, IInitialValue>) {
     const initialValue = useValueOrMap<null, IInitialValue>(null)(value);
 
@@ -28,10 +22,9 @@ export class UrlBuddy {
     }
   }
 
-  withProtocol(value: string): UrlBuddy;
-  withProtocol(value: Mapper<string>): UrlBuddy;
-  withProtocol(value: ValueOrMapper<string>): UrlBuddy;
-  withProtocol(value: ValueOrMapper<string>) {
+  withProtocol(protocol: string): UrlBuddy;
+  withProtocol(fn: Mapper<string>): UrlBuddy;
+  withProtocol(value: ValueOrMapper<string>): UrlBuddy {
     const protocol = useValueOrMap(this._data.protocol)(value);
 
     return this._immutableUpdate((data) => {
@@ -39,9 +32,8 @@ export class UrlBuddy {
     });
   }
 
-  withUsername(value: Nullable<string>): UrlBuddy;
-  withUsername(value: Mapper<Nullable<string>>): UrlBuddy;
-  withUsername(value: ValueOrMapper<Nullable<string>>): UrlBuddy;
+  withUsername(username: Nullable<string>): UrlBuddy;
+  withUsername(fn: Mapper<Nullable<string>>): UrlBuddy;
   withUsername(value: ValueOrMapper<Nullable<string>>): UrlBuddy {
     const username = useValueOrMap(this._data.username)(value);
 
@@ -50,9 +42,8 @@ export class UrlBuddy {
     });
   }
 
-  withPassword(value: Nullable<string>): UrlBuddy;
-  withPassword(value: Mapper<Nullable<string>>): UrlBuddy;
-  withPassword(value: ValueOrMapper<Nullable<string>>): UrlBuddy;
+  withPassword(password: Nullable<string>): UrlBuddy;
+  withPassword(fn: Mapper<Nullable<string>>): UrlBuddy;
   withPassword(value: ValueOrMapper<Nullable<string>>): UrlBuddy {
     const password = useValueOrMap(this._data.password)(value);
     return this._immutableUpdate((data) => {
@@ -61,16 +52,21 @@ export class UrlBuddy {
   }
 
   withCredentials(username: Nullable<string>, password: Nullable<string>): UrlBuddy;
-  withCredentials(username: Mapper<Nullable<string>>, password: Mapper<Nullable<string>>): UrlBuddy;
-  withCredentials(username: Mapper<Nullable<string>>, password: Nullable<string>): UrlBuddy;
-  withCredentials(username: Nullable<string>, password: Mapper<Nullable<string>>): UrlBuddy;
-  withCredentials(username: ValueOrMapper<Nullable<string>>, password: ValueOrMapper<Nullable<string>>) {
+  withCredentials(usernameMapper: Mapper<Nullable<string>>, passwordMapper: Mapper<Nullable<string>>): UrlBuddy;
+  withCredentials(usernameMapper: Mapper<Nullable<string>>, password: Nullable<string>): UrlBuddy;
+  withCredentials(username: Nullable<string>, passwordMapper: Mapper<Nullable<string>>): UrlBuddy;
+  withCredentials(
+    usernameOrFn: ValueOrMapper<Nullable<string>>,
+    passwordOrFn: ValueOrMapper<Nullable<string>>
+  ): UrlBuddy {
+    const username = useValueOrMap(this._data.username)(usernameOrFn);
+    const password = useValueOrMap(this._data.password)(passwordOrFn);
+
     return this.withUsername(username).withPassword(password);
   }
 
-  withDomain(value: string): UrlBuddy;
-  withDomain(value: Mapper<string>): UrlBuddy;
-  withDomain(value: ValueOrMapper<string>): UrlBuddy;
+  withDomain(domain: string): UrlBuddy;
+  withDomain(fn: Mapper<string>): UrlBuddy;
   withDomain(value: ValueOrMapper<string>): UrlBuddy {
     const domain = useValueOrMap(this._data.domain.toString())(value);
 
@@ -79,8 +75,8 @@ export class UrlBuddy {
     });
   }
 
-  withPath(value: ValueOrArray<string>): UrlBuddy;
-  withPath(value: Mapper<string[], ValueOrArray<string>>): UrlBuddy;
+  withPath(path: ValueOrArray<string>): UrlBuddy;
+  withPath(fn: Mapper<string[], ValueOrArray<string>>): UrlBuddy;
   withPath(value: ValueOrMapper<string[], ValueOrArray<string>>): UrlBuddy {
     const getValue = useValueOrMap<string[], ValueOrArray<string>>(this._data.path);
 
@@ -97,8 +93,7 @@ export class UrlBuddy {
   }
 
   withSearchParam(key: string, value: Nullable<string>): UrlBuddy;
-  withSearchParam(key: string, value: Mapper<Nullable<string>>): UrlBuddy;
-  withSearchParam(key: string, value: ValueOrMapper<Nullable<string>>): UrlBuddy;
+  withSearchParam(key: string, fn: Mapper<Nullable<string>>): UrlBuddy;
   withSearchParam(key: string, value: ValueOrMapper<Nullable<string>>) {
     const paramValue = useValueOrMap(this._data.search.get(key) ?? null)(value);
 
@@ -107,11 +102,19 @@ export class UrlBuddy {
     });
   }
 
-  withSearchParams(value: string): UrlBuddy;
-  withSearchParams(value: Iterable<[string, ValueOrMapper<Nullable<string>>]>): UrlBuddy;
-  withSearchParams(value: { [key: string]: ValueOrMapper<Nullable<string>> }): UrlBuddy;
+  withSearchParams(searchStr: string): UrlBuddy;
+  withSearchParams(searchIterable: Iterable<[string, ValueOrMapper<Nullable<string>>]>): UrlBuddy;
+  withSearchParams(searchObj: { [key: string]: ValueOrMapper<Nullable<string>> }): UrlBuddy;
+  withSearchParams(fn: Mapper<Map<string, Nullable<string>>, string>): UrlBuddy;
+  withSearchParams(
+    fn: Mapper<Map<string, Nullable<string>>, Iterable<[string, ValueOrMapper<Nullable<string>>]>>
+  ): UrlBuddy;
+  withSearchParams(
+    fn: Mapper<Map<string, Nullable<string>>, { [key: string]: ValueOrMapper<Nullable<string>> }>
+  ): UrlBuddy;
   withSearchParams(
     value: ValueOrMapper<
+      Map<string, Nullable<string>>,
       Iterable<[string, ValueOrMapper<Nullable<string>>]> | { [key: string]: ValueOrMapper<Nullable<string>> } | string
     >
   ): UrlBuddy {
@@ -127,9 +130,8 @@ export class UrlBuddy {
     });
   }
 
-  withHash(value: Nullable<string>): UrlBuddy;
-  withHash(value: Mapper<Nullable<string>>): UrlBuddy;
-  withHash(value: ValueOrMapper<Nullable<string>>): UrlBuddy;
+  withHash(hash: Nullable<string>): UrlBuddy;
+  withHash(fn: Mapper<Nullable<string>>): UrlBuddy;
   withHash(value: ValueOrMapper<Nullable<string>>) {
     const hash = useValueOrMap(this._data.hash)(value);
 

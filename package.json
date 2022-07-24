@@ -2,17 +2,22 @@
   "name": "urlbuddy",
   "version": "0.1.0",
   "description": "A utility library for handling URLs",
+  "type": "module",
   "main": "lib/index.js",
   "module": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
     "build": "rimraf lib && node ./esbuild.js && npm run ts-types",
     "test": "jest",
-    "ts-types": " tsc --emitDeclarationOnly --outDir lib"
+    "ts-types": " tsc"
   },
+  "keywords": ["url", "domain", "searchparams", "path"],
   "repository": {
     "type": "git",
     "url": "https://github.com/taraspolovyi/urlbuddy.git"
+  },
+  "bugs": {
+    "url": "https://github.com/taraspolovyi/urlbuddy/issues"
   },
   "author": "Taras Polovyi",
   "license": "MIT",

@@ -6,7 +6,11 @@ import { flow } from './utils/fp';
 import UrlData from './UrlData';
 
 export class UrlBuddy extends UrlBuddyBase {
-  withTopLevelDomain(value: ValueOrMapper<string[], ValueOrArray<string>>) {
+  withTopLevelDomain(tld: string): UrlBuddy;
+  withTopLevelDomain(tldArr: string[]): UrlBuddy;
+  withTopLevelDomain(mapper: Mapper<string[]>): UrlBuddy;
+  withTopLevelDomain(mapper: Mapper<string[], string>): UrlBuddy;
+  withTopLevelDomain(value: ValueOrMapper<string[], ValueOrArray<string>>): UrlBuddy {
     const processor = PSLDomainProcessor.fromString(this._data.domain);
 
     const getValue = useValueOrMap<string[], ValueOrArray<string>>(processor.tld);
@@ -19,9 +23,8 @@ export class UrlBuddy extends UrlBuddyBase {
     });
   }
 
-  withSecondLevelDomain(value: Nullable<string>): UrlBuddy;
-  withSecondLevelDomain(value: Mapper<Nullable<string>>): UrlBuddy;
-  withSecondLevelDomain(value: ValueOrMapper<Nullable<string>>): UrlBuddy;
+  withSecondLevelDomain(sld: Nullable<string>): UrlBuddy;
+  withSecondLevelDomain(fn: Mapper<Nullable<string>>): UrlBuddy;
   withSecondLevelDomain(value: ValueOrMapper<Nullable<string>>): UrlBuddy {
     const processor = PSLDomainProcessor.fromString(this._data.domain);
     const sld = useValueOrMap(processor.sld)(value);
@@ -33,7 +36,11 @@ export class UrlBuddy extends UrlBuddyBase {
     });
   }
 
-  withSubdomain(value: ValueOrMapper<string[], ValueOrArray<string>>) {
+  withSubdomain(subdomain: string): UrlBuddy;
+  withSubdomain(subdomainArr: string[]): UrlBuddy;
+  withSubdomain(mapper: Mapper<string[]>): UrlBuddy;
+  withSubdomain(mapper: Mapper<string[], string>): UrlBuddy;
+  withSubdomain(value: ValueOrMapper<string[], ValueOrArray<string>>): UrlBuddy {
     const processor = PSLDomainProcessor.fromString(this._data.domain);
     const getValue = useValueOrMap<string[], ValueOrArray<string>>(processor.subdomains);
     const subdomains = flow(getValue, toArray)(value);

@@ -1,31 +1,31 @@
-import { Nullable } from './types';
-import { UrlBuddy } from './UrlBuddyPsl';
-import { isNotNull } from './utils';
+import urlbuddy from '../index';
+import { Nullable } from '../types';
+import { isNotNull } from '../utils';
 
 describe('UrlBuddyPsl', () => {
   describe('withTopLevelDomain()', () => {
     describe('with constant argument', () => {
       it('reassembles when no changes applied', () => {
         const initialUrl = 'https://example.com/';
-        const resultUrl = new UrlBuddy(initialUrl).withTopLevelDomain('ua').toString();
+        const resultUrl = urlbuddy(initialUrl).withTopLevelDomain('ua').toString();
         expect(resultUrl).toEqual('https://example.ua/');
       });
 
       it('reassembles with path correctly when no changes applied', () => {
         const initialUrl = 'https://example.com/foo/bar/';
-        const resultUrl = new UrlBuddy(initialUrl).withTopLevelDomain('ua').toString();
+        const resultUrl = urlbuddy(initialUrl).withTopLevelDomain('ua').toString();
         expect(resultUrl).toEqual('https://example.ua/foo/bar/');
       });
 
       it('reassembles with subdomains correctly when no changes applied', () => {
         const initialUrl = 'https://foo.bar.example.com/';
-        const resultUrl = new UrlBuddy(initialUrl).withTopLevelDomain('ua').toString();
+        const resultUrl = urlbuddy(initialUrl).withTopLevelDomain('ua').toString();
         expect(resultUrl).toEqual('https://foo.bar.example.ua/');
       });
 
       it('reassembles with credentials correctly when no changes applied', () => {
         const initialUrl = 'https://username:password@example.com/';
-        const resultUrl = new UrlBuddy(initialUrl).withTopLevelDomain('ua').toString();
+        const resultUrl = urlbuddy(initialUrl).withTopLevelDomain('ua').toString();
         expect(resultUrl).toEqual('https://username:password@example.ua/');
       });
     });
@@ -37,25 +37,25 @@ describe('UrlBuddyPsl', () => {
 
       it('reassembles when no changes applied', () => {
         const initialUrl = 'https://example.com/';
-        const resultUrl = new UrlBuddy(initialUrl).withTopLevelDomain(appendUA).toString();
+        const resultUrl = urlbuddy(initialUrl).withTopLevelDomain(appendUA).toString();
         expect(resultUrl).toEqual('https://example.com.ua/');
       });
 
       it('reassembles with path correctly when no changes applied', () => {
         const initialUrl = 'https://example.com/foo/bar/';
-        const resultUrl = new UrlBuddy(initialUrl).withTopLevelDomain(appendUA).toString();
+        const resultUrl = urlbuddy(initialUrl).withTopLevelDomain(appendUA).toString();
         expect(resultUrl).toEqual('https://example.com.ua/foo/bar/');
       });
 
       it('reassembles with subdomains correctly when no changes applied', () => {
         const initialUrl = 'https://foo.bar.example.com/';
-        const resultUrl = new UrlBuddy(initialUrl).withTopLevelDomain(appendUA).toString();
+        const resultUrl = urlbuddy(initialUrl).withTopLevelDomain(appendUA).toString();
         expect(resultUrl).toEqual('https://foo.bar.example.com.ua/');
       });
 
       it('reassembles with credentials correctly when no changes applied', () => {
         const initialUrl = 'https://username:password@example.com/';
-        const resultUrl = new UrlBuddy(initialUrl).withTopLevelDomain(appendUA).toString();
+        const resultUrl = urlbuddy(initialUrl).withTopLevelDomain(appendUA).toString();
         expect(resultUrl).toEqual('https://username:password@example.com.ua/');
       });
     });
@@ -65,25 +65,25 @@ describe('UrlBuddyPsl', () => {
     describe('with constant argument', () => {
       it('reassembles when no changes applied', () => {
         const initialUrl = 'https://example.com/';
-        const resultUrl = new UrlBuddy(initialUrl).withSecondLevelDomain('testing').toString();
+        const resultUrl = urlbuddy(initialUrl).withSecondLevelDomain('testing').toString();
         expect(resultUrl).toEqual('https://testing.com/');
       });
 
       it('reassembles with path correctly when no changes applied', () => {
         const initialUrl = 'https://example.com/foo/bar/';
-        const resultUrl = new UrlBuddy(initialUrl).withSecondLevelDomain('testing').toString();
+        const resultUrl = urlbuddy(initialUrl).withSecondLevelDomain('testing').toString();
         expect(resultUrl).toEqual('https://testing.com/foo/bar/');
       });
 
       it('reassembles with subdomains correctly when no changes applied', () => {
         const initialUrl = 'https://foo.bar.example.com/';
-        const resultUrl = new UrlBuddy(initialUrl).withSecondLevelDomain('testing').toString();
+        const resultUrl = urlbuddy(initialUrl).withSecondLevelDomain('testing').toString();
         expect(resultUrl).toEqual('https://foo.bar.testing.com/');
       });
 
       it('reassembles with credentials correctly when no changes applied', () => {
         const initialUrl = 'https://username:password@example.com/';
-        const resultUrl = new UrlBuddy(initialUrl).withSecondLevelDomain('testing').toString();
+        const resultUrl = urlbuddy(initialUrl).withSecondLevelDomain('testing').toString();
         expect(resultUrl).toEqual('https://username:password@testing.com/');
       });
     });
@@ -95,25 +95,25 @@ describe('UrlBuddyPsl', () => {
 
       it('reassembles when no changes applied', () => {
         const initialUrl = 'https://example.com/';
-        const resultUrl = new UrlBuddy(initialUrl).withSecondLevelDomain(removeVowels).toString();
+        const resultUrl = urlbuddy(initialUrl).withSecondLevelDomain(removeVowels).toString();
         expect(resultUrl).toEqual('https://xmpl.com/');
       });
 
       it('reassembles with path correctly when no changes applied', () => {
         const initialUrl = 'https://example.com/foo/bar/';
-        const resultUrl = new UrlBuddy(initialUrl).withSecondLevelDomain(removeVowels).toString();
+        const resultUrl = urlbuddy(initialUrl).withSecondLevelDomain(removeVowels).toString();
         expect(resultUrl).toEqual('https://xmpl.com/foo/bar/');
       });
 
       it('reassembles with subdomains correctly when no changes applied', () => {
         const initialUrl = 'https://foo.bar.example.com/';
-        const resultUrl = new UrlBuddy(initialUrl).withSecondLevelDomain(removeVowels).toString();
+        const resultUrl = urlbuddy(initialUrl).withSecondLevelDomain(removeVowels).toString();
         expect(resultUrl).toEqual('https://foo.bar.xmpl.com/');
       });
 
       it('reassembles with credentials correctly when no changes applied', () => {
         const initialUrl = 'https://username:password@example.com/';
-        const resultUrl = new UrlBuddy(initialUrl).withSecondLevelDomain(removeVowels).toString();
+        const resultUrl = urlbuddy(initialUrl).withSecondLevelDomain(removeVowels).toString();
         expect(resultUrl).toEqual('https://username:password@xmpl.com/');
       });
     });
@@ -123,25 +123,25 @@ describe('UrlBuddyPsl', () => {
     describe('with constant argument', () => {
       it('reassembles when no changes applied', () => {
         const initialUrl = 'https://example.com/';
-        const resultUrl = new UrlBuddy(initialUrl).withSubdomain('qa').toString();
+        const resultUrl = urlbuddy(initialUrl).withSubdomain('qa').toString();
         expect(resultUrl).toEqual('https://qa.example.com/');
       });
 
       it('reassembles with path correctly when no changes applied', () => {
         const initialUrl = 'https://example.com/foo/bar/';
-        const resultUrl = new UrlBuddy(initialUrl).withSubdomain('qa').toString();
+        const resultUrl = urlbuddy(initialUrl).withSubdomain('qa').toString();
         expect(resultUrl).toEqual('https://qa.example.com/foo/bar/');
       });
 
       it('reassembles with subdomains correctly when no changes applied', () => {
         const initialUrl = 'https://foo.bar.example.com/';
-        const resultUrl = new UrlBuddy(initialUrl).withSubdomain('qa').toString();
+        const resultUrl = urlbuddy(initialUrl).withSubdomain('qa').toString();
         expect(resultUrl).toEqual('https://qa.example.com/');
       });
 
       it('reassembles with credentials correctly when no changes applied', () => {
         const initialUrl = 'https://username:password@example.com/';
-        const resultUrl = new UrlBuddy(initialUrl).withSubdomain('qa').toString();
+        const resultUrl = urlbuddy(initialUrl).withSubdomain('qa').toString();
         expect(resultUrl).toEqual('https://username:password@qa.example.com/');
       });
     });
@@ -153,25 +153,25 @@ describe('UrlBuddyPsl', () => {
 
       it('reassembles when no changes applied', () => {
         const initialUrl = 'https://example.com/';
-        const resultUrl = new UrlBuddy(initialUrl).withSubdomain(appendStage).toString();
+        const resultUrl = urlbuddy(initialUrl).withSubdomain(appendStage).toString();
         expect(resultUrl).toEqual('https://stg.example.com/');
       });
 
       it('reassembles with path correctly when no changes applied', () => {
         const initialUrl = 'https://example.com/foo/bar/';
-        const resultUrl = new UrlBuddy(initialUrl).withSubdomain(appendStage).toString();
+        const resultUrl = urlbuddy(initialUrl).withSubdomain(appendStage).toString();
         expect(resultUrl).toEqual('https://stg.example.com/foo/bar/');
       });
 
       it('reassembles with subdomains correctly when no changes applied', () => {
         const initialUrl = 'https://foo.bar.example.com/';
-        const resultUrl = new UrlBuddy(initialUrl).withSubdomain(appendStage).toString();
+        const resultUrl = urlbuddy(initialUrl).withSubdomain(appendStage).toString();
         expect(resultUrl).toEqual('https://foo.bar.stg.example.com/');
       });
 
       it('reassembles with credentials correctly when no changes applied', () => {
         const initialUrl = 'https://username:password@example.com/';
-        const resultUrl = new UrlBuddy(initialUrl).withSubdomain(appendStage).toString();
+        const resultUrl = urlbuddy(initialUrl).withSubdomain(appendStage).toString();
         expect(resultUrl).toEqual('https://username:password@stg.example.com/');
       });
     });

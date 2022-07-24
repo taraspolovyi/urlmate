@@ -1,6 +1,6 @@
 {
   "name": "urlbuddy",
-  "version": "0.1.0",
+  "version": "0.1.0-beta",
   "description": "A utility library for handling URLs",
   "type": "module",
   "main": "lib/index.js",

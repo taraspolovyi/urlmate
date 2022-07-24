@@ -9,13 +9,13 @@ UrlBuddy is a utility library for manipulating with URLs, specifically when the 
 To install the library using npm run the following command in your terminal:
 
 ```bash
-npm install --save urlbuddy
+npm install --save urlmate
 ```
 
 Alternatively, if you're using yarn, run:
 
 ```bash
-yarn add urlbuddy
+yarn add urlmate
 ```
 
 ## Using
@@ -23,9 +23,9 @@ yarn add urlbuddy
 Here is an example of the library usage with TypeScript.
 
 ```typescript
-import UrlBuddy, { append, identity, matchOrDefault } from 'urlbuddy';
+import UrlBuddy, { append, identity, matchOrDefault } from 'urlmate';
 
-const baseUrl = urlbuddy('api.example.com')
+const baseUrl = urlmate('api.example.com')
   .withSubdomain(
     matchOrDefault<string | undefined, string[]>(
       process.env.NODE_ENV,
@@ -56,19 +56,19 @@ Let's go through it step by step:
 
 ### Lightweight version
 
-In order to be able to work with separate parts of the domain (i.e. tld, sld and subdomains), UrlBuddy relies on [psl](https://github.com/lupomontero/psl). It comes with a price of increased bundle size. That is why, if the bundle size is critical or there is no need in sophisticated domain manipulations, there is also `urlbuddy/light`, which doesn't have some domain-related methods, but is only about 3KB uncompressed.
+In order to be able to work with separate parts of the domain (i.e. tld, sld and subdomains), UrlBuddy relies on [psl](https://github.com/lupomontero/psl). It comes with a price of increased bundle size. That is why, if the bundle size is critical or there is no need in sophisticated domain manipulations, there is also `urlmate/light`, which doesn't have some domain-related methods, but is only about 3KB uncompressed.
 
 ## Methods
 
-### urlbuddy()
+### urlmate()
 
 ```typescript
-urlbuddy(url: string): UrlBuddy;
-urlbuddy(url: UrlData): UrlBuddy;
-urlbuddy(url: IUrlDto): UrlBuddy;
-urlbuddy(initFn: Mapper<null, string>): UrlBuddy;
-urlbuddy(initFn: Mapper<null, UrlData>): UrlBuddy;
-urlbuddy(initFn: Mapper<null, IUrlDto>): UrlBuddy;
+urlmate(url: string): UrlBuddy;
+urlmate(url: UrlData): UrlBuddy;
+urlmate(url: IUrlDto): UrlBuddy;
+urlmate(initFn: Mapper<null, string>): UrlBuddy;
+urlmate(initFn: Mapper<null, UrlData>): UrlBuddy;
+urlmate(initFn: Mapper<null, IUrlDto>): UrlBuddy;
 ```
 
 ### toString()
@@ -77,7 +77,7 @@ urlbuddy(initFn: Mapper<null, IUrlDto>): UrlBuddy;
 toString(): string;
 ```
 
-Serializes the `urlbuddy` instance to string for further using as a regular URL.
+Serializes the `urlmate` instance to string for further using as a regular URL.
 
 ### withDomain()
 
@@ -89,7 +89,7 @@ withDomain(fn: Mapper<string>): UrlBuddy;
 Allows manipulations with domain as a whole.
 
 ```typescript
-urlbuddy('example.com/foo/bar')
+urlmate('example.com/foo/bar')
   .withDomain(
     matchOrDefault<string | undefined, string>(
       process.env.NODE_ENV,
@@ -103,7 +103,7 @@ urlbuddy('example.com/foo/bar')
 
 ### withTopLevelDomain()
 
-> **NOTE:** not available in `urlbuddy/light`
+> **NOTE:** not available in `urlmate/light`
 
 ```typescript
 withTopLevelDomain(tld: string): UrlBuddy;
@@ -115,7 +115,7 @@ withTopLevelDomain(mapper: Mapper<string[]>): UrlBuddy;
 Allows to perform changes only to top level domain.
 
 ```typescript
-urlbuddy('example.com')
+urlmate('example.com')
   .withTopLevelDomain(
     matchOrDefault<string | undefined, string[]>(
       process.env.COUNTRY,
@@ -129,7 +129,7 @@ urlbuddy('example.com')
 
 ### withSecondLevelDomain()
 
-> **NOTE:** not available in `urlbuddy/light`
+> **NOTE:** not available in `urlmate/light`
 
 ```typescript
 withSecondLevelDomain(sld: string): UrlBuddy;
@@ -139,7 +139,7 @@ withSecondLevelDomain(mapper: Mapper<string>): UrlBuddy;
 Allows to perform changes only to top level domain.
 
 ```typescript
-urlbuddy('example.com')
+urlmate('example.com')
   .withSecondLevelDomain(
     doIf(
       () => process.env.USE_REBRANDED_DOMAIN === 'true',
@@ -150,7 +150,7 @@ urlbuddy('example.com')
 
 ### withSubdomain()
 
-> **NOTE:** not available in `urlbuddy/light`
+> **NOTE:** not available in `urlmate/light`
 
 ```typescript
 withSubdomain(subdomain: string): UrlBuddy;
@@ -162,7 +162,7 @@ withSubdomain(fn: Mapper<string[]>): UrlBuddy;
 Allows to perform changes only to subdomains.
 
 ```typescript
-urlbuddy('api.example.com')
+urlmate('api.example.com')
   .withSubdomain(
     matchOrDefault<string | undefined, string[]>(
       process.env.NODE_ENV,
@@ -282,7 +282,7 @@ Works similarly to [constant](#constant) but also takes a predicate as a first p
 
 ```typescript
 // => isDev() ? https://dev.foo.com : https://foo.com
-urlbuddy('foo.com').withSubdomain(constIf(isDev, 'dev')) 
+urlmate('foo.com').withSubdomain(constIf(isDev, 'dev')) 
 ```
 
 ### append
@@ -295,7 +295,7 @@ Returns a mapper that is used to add a value (or values) to the end of array-bas
 
 ```typescript
 // => https://api.<environment>.foo.com/
-urlbuddy('api.foo.com').withSubdomain(append(environment))
+urlmate('api.foo.com').withSubdomain(append(environment))
 ```
 
 ### appendIf
@@ -308,7 +308,7 @@ Applies the [append](#append) mapper only when the predicate returns `true`.
 
 ```typescript
 // => isDev() ? https://api.dev.foo.com : https://api.foo.com
-urlbuddy('api.foo.com').withSubdomain(appendIf(isDev, 'dev'))
+urlmate('api.foo.com').withSubdomain(appendIf(isDev, 'dev'))
 ```
 
 ### prepend
@@ -321,7 +321,7 @@ Returns a mapper that is used to add a value (or values) to the beginning of arr
 
 ```typescript
 // => https://foo.com/<version>/bar/baz
-urlbuddy('foo.com/bar/baz').withPath(prepend(version))
+urlmate('foo.com/bar/baz').withPath(prepend(version))
 ```
 
 ### prependIf
@@ -334,7 +334,7 @@ Applies the [prepend](#append) mapper only when the predicate returns `true`.
 
 ```typescript
 // => isV2() ? https://foo.com/v2/bar/baz : https://api.foo.com/bar/baz
-urlbuddy('foo.com/bar/baz').withPath(prependIf(isV2, 'v2'))
+urlmate('foo.com/bar/baz').withPath(prependIf(isV2, 'v2'))
 ```
 
 ### doIf
@@ -377,7 +377,7 @@ matchOrDefault(
 
 ### Using custom mappers
 
-`urlbuddy` most methods take any mapper that match `(current: T) => T` signature, so you are free to use your own custom mappers to achieve the necessary result. For example:
+`urlmate` most methods take any mapper that match `(current: T) => T` signature, so you are free to use your own custom mappers to achieve the necessary result. For example:
 
 ```typescript
 function omitVowels(current: string) {
@@ -385,5 +385,5 @@ function omitVowels(current: string) {
 }
 
 // example.com => xmpl.com
-urlbuddy('example.com').withSecondLevelDomain(omitVowels)
+urlmate('example.com').withSecondLevelDomain(omitVowels)
 ```

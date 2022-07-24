@@ -1,5 +1,5 @@
 {
-  "name": "urlbuddy",
+  "name": "urlmate",
   "version": "0.1.0-beta",
   "description": "A utility library for handling URLs",
   "type": "module",
@@ -14,10 +14,10 @@
   "keywords": ["url", "domain", "searchparams", "path"],
   "repository": {
     "type": "git",
-    "url": "https://github.com/taraspolovyi/urlbuddy.git"
+    "url": "https://github.com/taraspolovyi/urlmate.git"
   },
   "bugs": {
-    "url": "https://github.com/taraspolovyi/urlbuddy/issues"
+    "url": "https://github.com/taraspolovyi/urlmate/issues"
   },
   "author": "Taras Polovyi",
   "license": "MIT",

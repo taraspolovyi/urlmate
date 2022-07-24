@@ -1,6 +1,6 @@
 {
   "name": "urlmate",
-  "version": "0.1.0-beta",
+  "version": "0.1.1-beta",
   "description": "A utility library for handling URLs",
   "type": "module",
   "main": "lib/index.js",
@@ -11,8 +11,12 @@
   },
   "typesVersions": {
     "*": {
-      "*": ["lib/index.d.ts"],
-      "light": ["lib/light.d.ts"]
+      "*": [
+        "lib/index.d.ts"
+      ],
+      "light": [
+        "lib/light.d.ts"
+      ]
     }
   },
   "scripts": {
@@ -20,7 +24,12 @@
     "test": "jest",
     "ts-types": " tsc"
   },
-  "keywords": ["url", "domain", "searchparams", "path"],
+  "keywords": [
+    "url",
+    "domain",
+    "searchparams",
+    "path"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/taraspolovyi/urlmate.git"

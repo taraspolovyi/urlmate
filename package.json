@@ -5,7 +5,16 @@
   "type": "module",
   "main": "lib/index.js",
   "module": "lib/index.js",
-  "types": "lib/index.d.ts",
+  "exports": {
+    ".": "./lib/index.js",
+    "./light": "./lib/light.js"
+  },
+  "typesVersions": {
+    "*": {
+      "*": ["lib/index.d.ts"],
+      "light": ["lib/light.d.ts"]
+    }
+  },
   "scripts": {
     "build": "rimraf lib && node ./esbuild.js && npm run ts-types",
     "test": "jest",
